@@ -9,11 +9,12 @@ public class CameraController2 : MonoBehaviour {
     public float speed = 1.5f;
     public float testttt;
     private Vector2 target;
+    private Vector3 oldPosition, offset;
 
     void Start()
     {
         Cursor.visible = false;
-        Camera.main.transform.position = new Vector3(0, 0, 0);
+        //Camera.main.transform.position = new Vector3(beginPosX, beginPosY, 0);
         
 
 
@@ -24,21 +25,30 @@ public class CameraController2 : MonoBehaviour {
     {
           Vector3 mouse = Input.mousePosition;
           mouse = mouse * cameraSpeed;
-          transform.position = Camera.main.ScreenToViewportPoint(mouse);
+          transform.position = Camera.main.ScreenToViewportPoint(mouse) - offset;
 
       
         
 
         target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log(target.x);
-
+        //Debug.Log(target.x);
+       // Debug.Log(target.y);
     }
 
-    private void MoveCursor()
-    {
-        // Set the Current cursor, move the cursor's Position,
-        // and set its clipping rectangle to the form. 
+    
 
-        
+    void OnEnable()
+    {
+
+        Vector3 mouse = Input.mousePosition;
+        mouse = mouse * cameraSpeed;
+        offset = Camera.main.ScreenToViewportPoint(mouse) - oldPosition;
+        //Debug.Log(transform.position);
+    }
+
+    void OnDisable()
+    {
+        oldPosition = transform.position;
+        //Debug.Log(oldPosition);
     }
 }
